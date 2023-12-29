@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nouveau Produit</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container mt-5">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Formulaire de modification de Catgorie</h3>
+            </div>
+            <div class="panel-body">
+    <form method="post" th:action="@{savecat}">
+        <div class="col-12">
+            <label>ID de Categorie:</label>
+            <label th:text="${categorie.id}"></label>
+            <input class="form-control" type="hidden" name="id" th:value="${categorie.id}">
+
+        </div>
+        <div class="col-12">
+            <label for="nom">Nom de Categorie</label>
+            <input id="nom" class="form-control" type="text" name="nom" th:value="${categorie.nom}">
+            <span class="text-danger" th:errors="${categorie.nom}"></span>
+
+        </div>
+        <div class="col-12">
+            <label for="description">Description</label>
+            <input id="description" class="form-control" type="text" name="description" th:value="${categorie.description}">
+            <span class="text-danger" th:errors="${categorie.description}"></span>
+
+        </div>
+
+
+
+        <div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+
+
+    </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+</html>

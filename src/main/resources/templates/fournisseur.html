@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Produit</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+
+
+<div class="container mt-3">
+    <div class="card">
+        <div class="card-header">
+            <h3>Liste des Fournisseurs</h3>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID de Fournisseur</th>
+                    <th>Nom de Fournisseur</th>
+                    <th>Adresse de Fournisseur</th>
+                    <th>Email de Fournisseur</th>
+
+                </tr>
+                </thead>
+
+                <tr>
+                    <tbody th:each="f:${fournisseur}">
+                <tr>
+                    <td th:text="${f.id}"></td>
+                    <td th:text="${f.nom}"></td>
+                    <td th:text="${f.adresse}"></td>
+                    <td th:text="${f.email}"></td>
+
+
+                    <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                        <a onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" class="btn btn-danger" th:href="@{supprimerfor(id=${f.getId()})}">Supprimer</a>
+                    </td>
+                    <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                        <a class="btn btn-warning" th:href="@{modiffor(id=${f.getId()})}">Modifier</a>
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+</div>
+</body>
+
+</html>

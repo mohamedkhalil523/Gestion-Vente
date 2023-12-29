@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Categories</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+
+
+<div class="container mt-3">
+    <div class="card">
+        <div class="card-header">
+            <h3>Liste des Categories</h3>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID de categorie</th>
+                    <th>Nom de categorie</th>
+                    <th>Description</th>
+
+                </tr>
+                </thead>
+
+                <tr>
+                    <tbody th:each="c:${categorie}">
+                <tr>
+                    <td th:text="${c.id}"></td>
+                    <td th:text="${c.nom}"></td>
+                    <td th:text="${c.description}"></td>
+
+                    <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                        <a onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" class="btn btn-danger" th:href="@{supprimercat(id=${c.getId()})}">Supprimer</a>
+                    </td>
+                    <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                        <a class="btn btn-warning" th:href="@{modifcat(id=${c.getId()})}">Modifier</a>
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+</div>
+</body>
+
+</html>
