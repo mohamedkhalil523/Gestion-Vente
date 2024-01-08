@@ -3,12 +3,12 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="template1">
 
-
 <head>
     <meta charset="UTF-8">
-    <title>Nouveau Produit</title>
+    <title>Modification de Produit</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
 </head>
+
 <body>
 <div layout:fragment="content1">
     <div class="container mt-5">
@@ -17,44 +17,51 @@
                 <h3 class="panel-title">Formulaire de modification de Produit</h3>
             </div>
             <div class="panel-body">
-    <form method="post" th:action="@{save}">
-        <div class="col-12">
-            <label>ID de Produit:</label>
-            <label th:text="${produit.id}"></label>
-            <input class="form-control" type="hidden" name="id" th:value="${produit.id}">
-
-        </div>
-        <div class="col-12">
-            <label for="nom">Nom de Produit</label>
-            <input id="nom" class="form-control" type="text" name="nom" th:value="${produit.nom}">
-            <span class="text-danger" th:errors="${produit.nom}"></span>
-
-        </div>
-        <div class="col-12">
-            <label for="description">Description</label>
-            <input id="description" class="form-control" type="text" name="description" th:value="${produit.description}">
-            <span class="text-danger" th:errors="${produit.description}"></span>
-
-        </div>
-        <div class="col-12">
-            <label for="prix">Prix de Produit</label>
-            <input id="prix" class="form-control" type="text" name="prix" th:value="${produit.prix}">
-            <span class="text-danger" th:errors="${produit.prix}"></span>
-
-            <div class="col-12">
-        <div>
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
-        </div>
-
-
-    </form>
-
+                <form method="post" th:action="@{/save}" th:object="${produit}">
+                    <div class="col-12">
+                        <label>ID de Produit:</label>
+                        <label th:text="${produit.id}"></label>
+                        <input class="form-control" type="hidden" name="id" th:value="${produit.id}">
+                    </div>
+                    <div class="col-12">
+                        <label for="nom">Nom de Produit</label>
+                        <input id="nom" class="form-control" type="text" name="nom" th:value="${produit.nom}">
+                        <span class="text-danger" th:errors="${produit.nom}"></span>
+                    </div>
+                    <div class="col-12">
+                        <label for="description">Description</label>
+                        <input id="description" class="form-control" type="text" name="description" th:value="${produit.description}">
+                        <span class="text-danger" th:errors="${produit.description}"></span>
+                    </div>
+                    <div class="col-12">
+                        <label for="prix">Prix de Produit</label>
+                        <input id="prix" class="form-control" type="text" name="prix" th:value="${produit.prix}">
+                        <span class="text-danger" th:errors="${produit.prix}"></span>
+                    </div>
+                    <div class="col-12">
+                        <!-- Liste déroulante pour les fournisseurs -->
+                        <label for="fournisseur">Fournisseur:</label>
+                        <select id="fournisseur" class="form-control" th:field="*{fournisseur.id}">
+                            <option th:each="fournisseur : ${fournisseurs}" th:value="${fournisseur.id}" th:text="${fournisseur.nom}"></option>
+                        </select>
+                        <span class="text-danger" th:if="${#fields.hasErrors('fournisseur.id')}" th:errors="*{fournisseur.id}"></span>
+                    </div>
+                    <div class="col-12">
+                        <!-- Liste déroulante pour les catégories -->
+                        <label for="categorie">Catégorie:</label>
+                        <select id="categorie" class="form-control" th:field="*{categorie.id}">
+                            <option th:each="categorie : ${categories}" th:value="${categorie.id}" th:text="${categorie.nom}"></option>
+                        </select>
+                        <span class="text-danger" th:if="${#fields.hasErrors('categorie.id')}" th:errors="*{categorie.id}"></span>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
 </div>
-
 </body>
 
 </html>

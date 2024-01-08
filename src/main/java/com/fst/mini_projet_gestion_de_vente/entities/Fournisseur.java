@@ -26,5 +26,5 @@ public class Fournisseur {
     @Size(min=7,max=15)
     private String email ;
     @OneToMany(mappedBy = "fournisseur")
-    List<Produit> produits;
+    private List<Produit> produits;
 }

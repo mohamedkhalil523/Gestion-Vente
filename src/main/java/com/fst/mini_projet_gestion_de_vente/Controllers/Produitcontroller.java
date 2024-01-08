@@ -1,6 +1,10 @@
 package com.fst.mini_projet_gestion_de_vente.Controllers;
 
+import com.fst.mini_projet_gestion_de_vente.Repositories.Categorierepository;
+import com.fst.mini_projet_gestion_de_vente.Repositories.Fournisseurrepository;
 import com.fst.mini_projet_gestion_de_vente.Repositories.Produitrepository;
+import com.fst.mini_projet_gestion_de_vente.entities.Categorie;
+import com.fst.mini_projet_gestion_de_vente.entities.Fournisseur;
 import com.fst.mini_projet_gestion_de_vente.entities.Produit;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,10 @@ import java.util.List;
 public class Produitcontroller {
     @Autowired
     private Produitrepository produitrepository;
+    @Autowired
+    private Categorierepository categorierepository;
+    @Autowired
+    private Fournisseurrepository fournisseurrepository;
 
     @GetMapping("/produit")
     @PreAuthorize("hasRole('USER')")
@@ -40,6 +48,10 @@ public class Produitcontroller {
     @PreAuthorize("hasRole('ADMIN')")
     public String ajout(Model model)
     {
+        List<Fournisseur> fournisseurs = fournisseurrepository.findAll();
+        List<Categorie> categories = categorierepository.findAll();
+        model.addAttribute("categories",categories);
+        model.addAttribute("fournisseurs",fournisseurs);
         model.addAttribute("produit",new Produit());
         return "ajout";
 
@@ -47,7 +59,9 @@ public class Produitcontroller {
     @PostMapping("/save")
     @PreAuthorize("hasRole('ADMIN')")
     public String saveProduit(Model model , @Valid Produit produit, BindingResult bindingResult){
-        if (bindingResult.hasErrors()) return "ajout";
+        if (bindingResult.hasErrors())
+
+            return "ajout";
         produitrepository.save(produit);
         return "redirect:produit";
     }
@@ -56,6 +70,10 @@ public class Produitcontroller {
     public String formpajout(Model model , long id) {
         Produit produit=produitrepository.findById(id).orElse(null);
         if(produit==null) throw new RuntimeException("Produit introvable");
+        List<Fournisseur> fournisseurs =fournisseurrepository.findAll();
+        List<Categorie> categories =categorierepository.findAll();
+        model.addAttribute("fournisseurs",fournisseurs);
+        model.addAttribute("categories",categories);
         model.addAttribute("produit",produit);
         return "modif";
     }
