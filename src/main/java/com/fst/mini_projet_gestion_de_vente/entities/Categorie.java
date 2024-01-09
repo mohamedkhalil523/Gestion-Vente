@@ -21,7 +21,7 @@ public class Categorie {
     @Size(min=5,max=15)
     private String nom;
     @NotNull
-    @Size(min=5,max=15)
+    @Size(min=5,max=30)
     private String description ;
     @OneToMany(mappedBy = "categorie")
     private List<Produit> produits;

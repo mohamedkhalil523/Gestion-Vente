@@ -1,7 +1,9 @@
 package com.fst.mini_projet_gestion_de_vente.Controllers;
 
 import com.fst.mini_projet_gestion_de_vente.Repositories.Categorierepository;
+import com.fst.mini_projet_gestion_de_vente.Repositories.Produitrepository;
 import com.fst.mini_projet_gestion_de_vente.entities.Categorie;
+import com.fst.mini_projet_gestion_de_vente.entities.Produit;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +19,8 @@ import java.util.List;
 public class Categoriecontroller {
     @Autowired
     private Categorierepository categorierepository;
-
+    @Autowired
+    private Produitrepository produitrepository;
     @GetMapping("/categorie")
     @PreAuthorize("hasRole('USER')")
     public String list(Model model)
@@ -30,8 +33,18 @@ public class Categoriecontroller {
 
     @GetMapping("/supprimercat")
     @PreAuthorize("hasRole('ADMIN')")
-    public String supprimer(long id)
-    {
+    public String supprimerCategorie(long id, Model model) {
+        // Vérifier s'il existe des produits liés à la catégorie
+        List<Produit> produits = produitrepository.findByCategorieId(id);
+
+        if (!produits.isEmpty()) {
+            // Il y a des produits liés à cette catégorie
+            model.addAttribute("categorieId", id);
+            model.addAttribute("produits", produits);
+            return "erreurSuppressionCat";
+        }
+
+        // Aucun produit lié, supprimer la catégorie
         categorierepository.deleteById(id);
         return "redirect:categorie";
     }

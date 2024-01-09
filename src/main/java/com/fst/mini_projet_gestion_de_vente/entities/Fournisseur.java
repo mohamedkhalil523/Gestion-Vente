@@ -23,7 +23,7 @@ public class Fournisseur {
     @NotNull
     private String adresse ;
     @NotNull
-    @Size(min=7,max=15)
+    @Size(min=7,max=30)
     private String email ;
     @OneToMany(mappedBy = "fournisseur")
     private List<Produit> produits;

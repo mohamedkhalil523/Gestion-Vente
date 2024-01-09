@@ -15,7 +15,7 @@ public class Produit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id ;
     @NotNull
-    @Size(min = 5,max = 15)
+    @Size(min = 5,max = 30)
     private String nom;
     @NotBlank
     private String description ;

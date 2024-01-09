@@ -1,7 +1,9 @@
 package com.fst.mini_projet_gestion_de_vente.Controllers;
 
 import com.fst.mini_projet_gestion_de_vente.Repositories.Fournisseurrepository;
+import com.fst.mini_projet_gestion_de_vente.Repositories.Produitrepository;
 import com.fst.mini_projet_gestion_de_vente.entities.Fournisseur;
+import com.fst.mini_projet_gestion_de_vente.entities.Produit;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +19,8 @@ import java.util.List;
 public class FournisseurController {
     @Autowired
     private Fournisseurrepository fournisseurrepository;
+    @Autowired
+    private Produitrepository produitrepository ;
 
     @GetMapping("/fournisseur")
     @PreAuthorize("hasRole('USER')")
@@ -30,8 +34,17 @@ public class FournisseurController {
 
     @GetMapping("/supprimerfor")
     @PreAuthorize("hasRole('ADMIN')")
-    public String supprimer(long id)
-    {
+    public String supprimerFournisseur(long id, Model model) {
+        // Vérifier s'il existe des produits liés au fournisseur
+        List<Produit> produits = produitrepository.findByFournisseurId(id);
+
+        if (!produits.isEmpty()) {
+            // Il y a des produits liés à ce fournisseur
+            model.addAttribute("fournisseurId", id);
+            model.addAttribute("produits", produits);
+            return "erreurSuppressionFournisseur";
+        }
+
         fournisseurrepository.deleteById(id);
         return "redirect:fournisseur";
     }
