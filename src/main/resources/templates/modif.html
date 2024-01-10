@@ -55,7 +55,8 @@
                         <span class="text-danger" th:if="${#fields.hasErrors('categorie.id')}" th:errors="*{categorie.id}"></span>
                     </div>
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <button onclick="return confirm('Êtes-vous sûr ?')"
+                                type="submit" class="btn btn-primary">Enregistrer</button>
                     </div>
                 </form>
             </div>
